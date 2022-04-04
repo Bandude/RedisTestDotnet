@@ -11,32 +11,41 @@ ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(
                 EndPoints = { "localhost:6379" }
             });
 
-    var db = redis.GetDatabase();
-    var pong = await db.PingAsync();
-    Console.WriteLine(pong);
+var db = redis.GetDatabase();
+var pong = await db.PingAsync();
+Console.WriteLine(pong);
 
-Console.WriteLine("Enter a Key: ");
-string? key = Console.ReadLine();
-Console.WriteLine("Enter a value: ");
-string? value = Console.ReadLine();
-
-
-db.StringSet(key, value);
-
-
-while (true)
+while (Console.ReadLine() != "Stop")
 {
-    string searchValue = Console.ReadLine();
+
+    Console.WriteLine("Enter a Key: ");
+    string? key = Console.ReadLine();
+    Console.WriteLine("Enter a value: ");
+    string? value = Console.ReadLine();
 
 
-    if(db.StringGet(searchValue).ToString() == null)
-    {
-        Console.WriteLine("No Record Found");
-    }
-    else
-    {
-        Console.WriteLine("You found me!!! >> " + db.StringGet(searchValue).ToString());
-        Console.ReadLine();
-        break;
-    }
+    db.Publish(key, value);
 }
+
+
+//db.StringSet(key, value);
+
+
+//while (true)
+//{
+//    string searchValue = Console.ReadLine();
+
+
+//    if(db.StringGet(searchValue).ToString() == null)
+//    {
+//        Console.WriteLine("No Record Found");
+//    }
+//    else
+//    {
+//        Console.WriteLine("You found me!!! >> " + db.StringGet(searchValue).ToString());
+//        Console.ReadLine();
+//        break;
+//    }
+//}
+
+
